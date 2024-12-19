@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Recipe Book App</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+            <h1>Recipe Book App</h1>
+            <form id="recipe-form">
+                <input type="text" id="title" placeholder="Title" required>
+                <div id="ingredients-list">
+                    <div class="ingredient-item">
+                        <input type="text" name="ingredient" placeholder="Ingredient" required>
+                        <button type="button" class="remove-ingredient">Remove</button>
+                    </div>
+                </div>
+                <button type="button" id="add-ingredient">Add Ingredient</button>
+                <textarea id="instructions" placeholder="Instructions" required></textarea>
+                <input type="number" id="prep-time" placeholder="Prep Time (mins)" required>
+                <input type="number" id="cook-time" placeholder="Cook Time (mins)" required>
+                <input type="number" id="servings" placeholder="Servings" required>
+                <input type="url" id="image-url" placeholder="Image URL (optional)">
+                <button type="submit">Add Recipe</button>
+                <button type="button" id="clear-form">Clear</button>
+            </form>
+        </div>
+        <div class="recipes-container">
+            <ul id="recipe-list"></ul>
+        </div>
+    </div>
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <script src="script.js"></script>
+    <script>
+        function displayRecipes() {
+            const recipeList = document.getElementById('recipe-list');
+            recipeList.innerHTML = '';
+            recipes.forEach((recipe, index) => {
+                const li = document.createElement('li');
+                li.className = 'recipe-card';
+                li.dataset.index = index;
+                li.innerHTML = `
+                    ${recipe.imageUrl ? `<img src="${recipe.imageUrl}" alt="${recipe.title}">` : ''}
+                    <h2>${recipe.title}</h2>
+                    <p><strong>Prep Time:</strong> ${recipe.prepTime} mins</p>
+                    <p><strong>Cook Time:</strong> ${recipe.cookTime} mins</p>
+                    <p><strong>Servings:</strong> ${recipe.servings}</p>
+                    <p><strong>Ingredients:</strong></p>
+                    <ul>
+                        ${recipe.ingredients.map(ingredient => `<li>${ingredient}</li>`).join('')}
+                    </ul>
+                    <p><strong>Instructions:</strong></p>
+                    <p>${recipe.instructions}</p>
+                    <div class="icons">
+                        <button type="button" class="edit-recipe">
+                            <svg data-lucide="edit-2"></svg> Edit
+                        </button>
+                        <button type="button" class="delete-recipe">
+                            <svg data-lucide="trash-2"></svg> Delete
+                        </button>
+                    </div>
+                `;
+                recipeList.appendChild(li);
+            });
+            lucide.createIcons();
+        }
+    </script>
+</body>
+</html>
